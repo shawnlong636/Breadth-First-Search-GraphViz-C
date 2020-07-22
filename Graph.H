@@ -27,6 +27,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include <map>
 #include "Vertex.H"
 
 using namespace std;
@@ -36,7 +37,20 @@ public:
 	Graph(){}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
-	void build_graph(ifstream& ifs){ /* implement build_graph */ }
+	void build_graph(ifstream& ifs) // TODO
+	{
+		unsigned int numVertices;
+		unsigned int numEdges;
+		ifs >> numVertices >> numEdges;
+		cout << "Vertices: " << numVertices << ", Edges: " << numEdges << endl;
+
+		for (unsigned int i = 0; i<numVertices; ++i)
+		{
+			Vertex V;
+			ifs >> V.label;
+			vertices.push_back(V);
+		}
+	}
 	void output_graph(){ /* implement output_graph */ }
 	void bfs(){ /* implement bfs */ }
 private:

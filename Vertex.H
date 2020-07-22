@@ -15,11 +15,12 @@
  * code from any outside resources such as another individual,
  * a website, or publishings unless specifically designated as
  * permissible by the instructor or TA.
- */ 
+ */
 
 #ifndef VERTEX_H_
 #define VERTEX_H_
 
+#include <climits>
 #include <string>
 #include <list>
 
@@ -27,7 +28,12 @@ using namespace std;
 
 class Vertex {
 public:
-	Vertex(){ /* implement constructor*/ }
+	Vertex()
+	{
+		distance = INT_MAX;
+		label = "";
+	}
+
 	~Vertex(){}
 	string label;
 	int distance;

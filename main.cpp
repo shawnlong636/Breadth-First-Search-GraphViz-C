@@ -32,8 +32,9 @@ int main(int argc, char* argv[]) {
       cerr << "Input file not found." << endl;
       exit(1);
     }
-
-    Graph g(ifs);
+    
+    Graph g;
+    g.build_graph(ifs);
     ifs.close();
     g.bfs();
     g.output_graph();
