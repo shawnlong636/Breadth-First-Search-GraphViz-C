@@ -50,11 +50,70 @@ public:
 			ifs >> V.label;
 			vertices.push_back(V);
 		}
+
+		for (unsigned int i = 0; i < numEdges; i++)
+		{
+			string token1;
+			string token2;
+
+			// input both tokens on lines for edges
+			ifs >> token1 >> token2;
+
+			cout << "Token 1: " << token1 << "(" << find(token1) << ")" << 
+					", Token 2: " << token2 << "(" << find(token2) << ")" << endl;
+			
+			// Populate List for each vertex with indices of neighbors
+			vertices.at(find(token1)).neighbors.push_back(find(token2));
+		}
 	}
-	void output_graph(){ /* implement output_graph */ }
+	void output_graph()
+	{
+		ofstream ofs("graph.dot");
+
+		ofs << "digraph G {" << endl;
+		ofs << "graph [" << endl
+			<< "pad = 0.5" << endl
+			<< "ranksep = 0.001" << endl
+			<< "rankdir = \"LR\"" << endl
+			<< "style = radial" << endl
+			<< "bgcolor = \"#41C6EA:#4AF2A1\" " << endl
+			<< "];" << endl;
+
+		ofs << "node [" << endl
+			<< "style = filled" << endl
+			<< "fillcolor = white" << endl
+			<< "penwidth = 0" << endl
+			<< "];" << endl;
+
+		// Output Vertices
+		for (unsigned int i = 0; i < vertices.size(); i++)
+		{
+			ofs << vertices.at(i).label	<< ";" << endl;
+		}
+		ofs << endl;
+
+		// Output Edges
+		for (unsigned int i = 0; i < vertices.size(); i++)
+		{
+			for (list<int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
+			{
+				ofs << vertices.at(i).label << "->" << vertices.at(*it).label << ";" << endl;
+			}
+		}
+		ofs << "}" << endl;
+	}
 	void bfs(){ /* implement bfs */ }
 private:
 	vector<Vertex> vertices;
+	int find(const string& label)
+	{
+		for (int i = 0; i<vertices.size(); i++)
+		{
+			if (vertices.at(i).label == label)
+				return i;
+		}
+		return -1;
+	}
 };
 
 #endif /* GRAPH_H_ */
