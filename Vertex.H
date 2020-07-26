@@ -32,12 +32,14 @@ public:
 	{
 		distance = INT_MAX;
 		label = "";
+		parent = -1;
 	}
 
 	~Vertex(){}
 	string label;
 	int distance;
 	list<int> neighbors;
+	int parent;
 };
 
 #endif /* VERTEX_H_ */

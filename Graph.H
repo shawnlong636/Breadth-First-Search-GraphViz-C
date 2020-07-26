@@ -68,8 +68,11 @@ public:
 	}
 	void output_graph() // FIXME
 	{
+		// Declare Variables
+		string nodeColor;
 		ofstream ofs("graph.dot");
 
+		// Set Defaults for Graph, edge and nodes		
 		ofs << "strict digraph G {" << endl << endl;
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
@@ -95,9 +98,19 @@ public:
 		// Output Vertices
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
+			string nodeColor ="";
+
+			switch (vertices.at(i).distance) 
+			{
+				case 0 : { nodeColor = "#F8E6D6"; break; }
+				case 1 : { nodeColor = "#F6CC92"; break; }
+				case 2 : { nodeColor = "#F2AB4D"; break; }
+			}
+
 			ofs << vertices.at(i).label	
-				<< "[label = \"" << vertices.at(i).label 
-				<< " (" << vertices.at(i).distance << ")\"];" << endl;
+				<< " [label = \"" << vertices.at(i).label 
+				<< " (" << vertices.at(i).distance << ")\""
+				<< ", fillcolor = \""<< nodeColor << "\"];" << endl;
 		}
 		ofs << endl;
 
@@ -106,7 +119,17 @@ public:
 		{
 			for (list<int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
 			{
-				ofs << vertices.at(i).label << "->" << vertices.at(*it).label << ";" << endl;
+				ofs << vertices.at(i).label << "->" << vertices.at(*it).label;
+
+				if (vertices.at(*it).parent == i)
+				{
+					ofs << " [color = \"#D75B5F\", style = bold ];" << endl;
+				}
+				else
+				{
+					ofs << " [color = \"#3A3E45\", style = dotted ];" << endl;
+				}
+				
 			}
 		}
 		ofs << "}" << endl;
@@ -141,6 +164,7 @@ public:
 				{
 					// u.d = v.d + 1
 					vertices.at(*it).distance = v.distance+1;
+					vertices.at(*it).parent = find(v.label);
 
 					// enqueue u
 					Q.push(vertices.at(*it));
