@@ -7,6 +7,7 @@ This C++ program reads an input file detailing vertices and edges in a graph and
 * Descriptive tooltips on vertices **and** edges
 * Uniform radial graph Layout
 * Coloring to reflect distance from origin
+* Hyperlink via Subgraph
 
 ## Input File Formatting
 

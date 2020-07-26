@@ -33,8 +33,7 @@ int main(int argc, char* argv[]) {
       exit(1);
     }
     
-    Graph g;
-    g.build_graph(ifs);
+    Graph g(ifs);
     ifs.close();
     g.bfs();
     g.output_graph();

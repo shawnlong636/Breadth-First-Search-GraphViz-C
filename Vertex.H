@@ -21,7 +21,6 @@
 #define VERTEX_H_
 
 #include <climits>
-#include <string>
 #include <list>
 
 using namespace std;
@@ -32,14 +31,14 @@ public:
 	{
 		distance = INT_MAX;
 		label = "";
-		parent = -1;
+		parent = INT_MAX;
 	}
 
 	~Vertex(){}
 	string label;
-	int distance;
-	list<int> neighbors;
-	int parent;
+	unsigned int distance;
+	list<unsigned int> neighbors;
+	unsigned int parent;
 };
 
 #endif /* VERTEX_H_ */

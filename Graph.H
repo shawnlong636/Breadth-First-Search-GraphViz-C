@@ -26,29 +26,14 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
-#include <cstdio>
-#include <map>
 #include "Vertex.H"
 
 using namespace std;
 
 class Graph {
 public:
-	Graph()
-	{
-		// Set Color Settings
-		bgIn = "#2D2732";
-		bgOut = "#0D0B0E";
-		node0 = "#D14C5A";
-		node1 = "#7E364E";
-		node2 = "#4C2844";
-		node3 = "#2E1F3D";
-		node4 = "#2E1F3D";
-		edgeLong = "#504755";
-		edgeShort = "#FFFFFF";
-		fontColor = "#FFFFFF";
-	}
-	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
+	Graph()	{ setColors(); }
+	Graph(ifstream& ifs) { setColors(); build_graph(ifs); }
 	~Graph(){}
 	void build_graph(ifstream& ifs)
 	{
@@ -75,7 +60,7 @@ public:
 			vertices.at(find(token1)).neighbors.push_back(find(token2));
 		}
 	}
-	void output_graph() // FIXME
+	void output_graph() 
 	{
 		// Declare Variables
 		string nodeColor;
@@ -85,6 +70,26 @@ public:
 		ofs << "strict digraph G {" << endl << endl;
 		ofs << "layout = circo" << endl;
 		ofs << "tooltip = \"Breadth First Search\"" << endl << endl;
+
+		// SubGraph GitHub Link
+		ofs << "subgraph GitHub {" << endl
+			<< "style = \"invis\"" << endl
+			<< "margin = 0" << endl << endl;
+		
+		ofs << "GitHub [" << endl
+			<< "fontcolor = \"" << node0 << "\"" << endl
+			<< "fontname = Georgia" << endl
+			<< "shape = circle" << endl
+			<< "penwidth = 0" << endl
+			<< "label = \"GitHub\"" << endl
+			<< "href = \"https://github.com/shawnlong636/CS14_assn5\"" << endl
+			<< "target = \"_blank\"" << endl
+			<< "];" << endl << "}" << endl << endl;
+
+
+
+
+
 
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
@@ -150,7 +155,7 @@ public:
 		// ## Output Edges
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
-			for (list<int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
+			for (list<unsigned int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
 			{
 				ofs << vertices.at(i).label << "->" << vertices.at(*it).label;
 
@@ -225,7 +230,7 @@ public:
 			Q.pop();
 
 			// for each adjacent Vertex (u)
-			for (list<int>::iterator it = v.neighbors.begin(); it!=v.neighbors.end(); it++)
+			for (list<unsigned int>::iterator it = v.neighbors.begin(); it!=v.neighbors.end(); it++)
 			{
 				// if u.d = infinity
 				if (vertices.at(*it).distance==INT_MAX)
@@ -260,28 +265,28 @@ private:
 	string edgeShort;
 
 	vector<Vertex> vertices;
-	int find(const string& label)
+	unsigned int find(const string& label)
 	{
-		for (int i = 0; i<vertices.size(); i++)
+		for (unsigned int i = 0; i<static_cast<unsigned int>(vertices.size()); i++)
 		{
 			if (vertices.at(i).label == label)
 				return i;
 		}
-		return -1;
+		return INT_MAX;
 	}
 	bool bidirectional(Vertex& v1, Vertex& v2)
 	{
 		int numDirections = 0;
 
 		// Check if v2 is neighbor of v1
-		for (list<int>::iterator it = v1.neighbors.begin(); it!=v1.neighbors.end(); it++)
+		for (list<unsigned int>::iterator it = v1.neighbors.begin(); it!=v1.neighbors.end(); it++)
 		{
 			if (vertices.at(*it).label == v2.label)
 				numDirections++;
 		}
 
 		// Check if v1 is neighbor of v2
-		for (list<int>::iterator it = v2.neighbors.begin(); it!=v2.neighbors.end(); it++)
+		for (list<unsigned int>::iterator it = v2.neighbors.begin(); it!=v2.neighbors.end(); it++)
 		{
 			if (vertices.at(*it).label == v1.label)
 				numDirections++;
@@ -291,6 +296,19 @@ private:
 			return true;
 		else
 			return false;
+	}
+	void setColors()
+	{
+		bgIn = "#2D2732";
+		bgOut = "#0D0B0E";
+		node0 = "#D14C5A";
+		node1 = "#7E364E";
+		node2 = "#4C2844";
+		node3 = "#2E1F3D";
+		node4 = "#2E1F3D";
+		edgeLong = "#504755";
+		edgeShort = "#FFFFFF";
+		fontColor = "#FFFFFF";
 	}
 };
 
