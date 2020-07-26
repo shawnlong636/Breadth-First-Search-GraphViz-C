@@ -126,6 +126,8 @@ public:
 				<< " (" << vertices.at(0).distance << ")\"" << endl
 				<< "fillcolor = \""<< node0 << "\"" << endl
 				<< "peripheries = 2, penwidth = 1" << endl
+				<< "tooltip = \"" << vertices.at(0).label << ", Distance from Origin: "
+				<< vertices.at(0).distance << "\"" << endl
 				<< "color = \"" << node0 << "\" ];" << endl << endl;
 		// Remaining Vertices
 		for (unsigned int i = 1; i < vertices.size(); i++)
@@ -144,6 +146,8 @@ public:
 			ofs << vertices.at(i).label	
 				<< " [label = \"" << vertices.at(i).label 
 				<< " (" << vertices.at(i).distance << ")\""
+				<< "tooltip = \"" << vertices.at(i).label << ", Distance from Origin: "
+				<< vertices.at(i).distance << "\"" << endl
 				<< ", fillcolor = \""<< nodeColor << "\"];" << endl;
 		}
 		ofs << endl;
@@ -157,26 +161,53 @@ public:
 
 				if (vertices.at(*it).parent == i)
 				{
-					ofs << " [" << endl
-						<< "color = \"" << edgeShort << "\""
-						<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
-						<< " (part of shortest path)\""
-						<< ", style = bold ];" << endl;
+					if (bidirectional(vertices.at(*it),vertices.at(i)))
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " <-> " << vertices.at(*it).label 
+							<< " (part of shortest path)\""
+							<< ", dir = both"
+							<< ", style = bold ];" << endl;
+					}
+					else
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+							<< " (part of shortest path)\""
+							<< ", style = bold ];" << endl;
+					}
+					
+
 				}
 				else
 				{
+					if (bidirectional(vertices.at(*it),vertices.at(i)))
+					{
 						ofs << " [" << endl
-						<< "color = \"" << edgeShort << "\""
-						<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
-						<< " (not part of shortest path)\""
-						<< ", style = dotted ];" << endl;
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " <-> " << vertices.at(*it).label 
+							<< " (not part of shortest path)\""
+							<< ", dir = both"
+							<< ", style = dotted ];" << endl;
+					}
+					else
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+							<< " (not part of shortest path)\""
+							<< ", style = dotted ];" << endl;
+						
+					}
 				}
 				
 			}
 		}
 		ofs << "}" << endl;
 	}
-	void bfs() // FIXME
+	void bfs()
 	{
 		// Declare Variables
 		queue<Vertex> Q;
@@ -230,7 +261,6 @@ private:
 	string node3;
 	string node4;
 	string fontColor;
-
 	string edgeLong;
 	string edgeShort;
 
@@ -243,6 +273,29 @@ private:
 				return i;
 		}
 		return -1;
+	}
+	bool bidirectional(Vertex& v1, Vertex& v2)
+	{
+		int numDirections = 0;
+
+		// Check if v2 is neighbor of v1
+		for (list<int>::iterator it = v1.neighbors.begin(); it!=v1.neighbors.end(); it++)
+		{
+			if (vertices.at(*it).label == v2.label)
+				numDirections++;
+		}
+
+		// Check if v1 is neighbor of v2
+		for (list<int>::iterator it = v2.neighbors.begin(); it!=v2.neighbors.end(); it++)
+		{
+			if (vertices.at(*it).label == v1.label)
+				numDirections++;
+		}
+
+		if (numDirections==2)
+			return true;
+		else
+			return false;
 	}
 };
 
