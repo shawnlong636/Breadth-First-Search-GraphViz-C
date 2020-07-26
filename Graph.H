@@ -34,7 +34,19 @@ using namespace std;
 
 class Graph {
 public:
-	Graph(){}
+	Graph()
+	{
+		// Set Color Settings
+		bgIn = "#EEEEEE";
+		bgOut = "#6EDCC5";
+		node0 = "#F8E6D6";
+		node1 = "#F6CC92";
+		node2 = "#F2AB4D";
+		node3 = "#F2AB4D";
+		node4 = "#F2AB4D";
+		edgeLong = "#3A3E45";
+		edgeShort = "#D75B5F";
+	}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
 	void build_graph(ifstream& ifs)
@@ -82,18 +94,16 @@ public:
 			// << "ratio = \"6,9\""
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
-			<< "bgcolor = \"#EEEEEE:#6EDCC5\"];" << endl << endl;
+			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
 			<< "style = filled" << endl
-			<< "fillcolor = \"#F2ECC6\"" << endl
 			<< "penwidth = 0];" << endl << endl; 
 
 			ofs << "edge [" << endl
 				<< "arrowhead = vee" << endl
 				<< "len = 0.6" << endl
-				<< "arrowsize = 0.7" << endl
-				<< "color = \"#3A3E45\"];" << endl << endl; 
+				<< "arrowsize = 0.7];" << endl << endl; 
 
 		// Output Vertices
 		for (unsigned int i = 0; i < vertices.size(); i++)
@@ -102,9 +112,11 @@ public:
 
 			switch (vertices.at(i).distance) 
 			{
-				case 0 : { nodeColor = "#F8E6D6"; break; }
-				case 1 : { nodeColor = "#F6CC92"; break; }
-				case 2 : { nodeColor = "#F2AB4D"; break; }
+				case 0 : { nodeColor = node0; break; }
+				case 1 : { nodeColor = node1; break; }
+				case 2 : { nodeColor = node2; break; }
+				case 3 : { nodeColor = node3; break; }
+				case 4 : { nodeColor = node4; break; }
 			}
 
 			ofs << vertices.at(i).label	
@@ -123,11 +135,11 @@ public:
 
 				if (vertices.at(*it).parent == i)
 				{
-					ofs << " [color = \"#D75B5F\", style = bold ];" << endl;
+					ofs << " [color = \"" << edgeShort << "\", style = bold ];" << endl;
 				}
 				else
 				{
-					ofs << " [color = \"#3A3E45\", style = dotted ];" << endl;
+					ofs << " [color = \"" << edgeLong << "\", style = dotted ];" << endl;
 				}
 				
 			}
@@ -179,6 +191,18 @@ public:
 
 	}
 private:
+	// Colors
+	string bgIn;
+	string bgOut;
+	string node0;
+	string node1;
+	string node2;
+	string node3;
+	string node4;
+
+	string edgeLong;
+	string edgeShort;
+
 	vector<Vertex> vertices;
 	int find(const string& label)
 	{
