@@ -185,19 +185,19 @@ public:
 					if (bidirectional(vertices.at(*it),vertices.at(i)))
 					{
 						ofs << " [" << endl
-							<< "color = \"" << edgeShort << "\""
+							<< "color = \"" << edgeLong << "\""
 							<< ", tooltip = \"" << vertices.at(i).label << " <-> " << vertices.at(*it).label 
 							<< " (not part of shortest path)\""
 							<< ", dir = both"
-							<< ", style = dotted ];" << endl;
+							<< ", style = line ];" << endl;
 					}
 					else
 					{
 						ofs << " [" << endl
-							<< "color = \"" << edgeShort << "\""
+							<< "color = \"" << edgeLong << "\""
 							<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
 							<< " (not part of shortest path)\""
-							<< ", style = dotted ];" << endl;
+							<< ", style = line ];" << endl;
 						
 					}
 				}
