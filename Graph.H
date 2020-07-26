@@ -37,18 +37,6 @@ public:
 	Graph()
 	{
 		// Set Color Settings
-<<<<<<< HEAD
-		bgIn = "#EEEEEE";
-		bgOut = "#6EDCC5";
-		node0 = "#F8E6D6";
-		node1 = "#F6CC92";
-		node2 = "#F2AB4D";
-		node3 = "#F2AB4D";
-		node4 = "#F2AB4D";
-		edgeLong = "#3A3E45";
-		edgeShort = "#D75B5F";
-		fontColor = "#121624";
-=======
 		bgIn = "#2D2732";
 		bgOut = "#0D0B0E";
 		node0 = "#D14C5A";
@@ -59,7 +47,6 @@ public:
 		edgeLong = "#504755";
 		edgeShort = "#FFFFFF";
 		fontColor = "#FFFFFF";
->>>>>>> purpleNight
 	}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
@@ -68,8 +55,7 @@ public:
 		unsigned int numVertices;
 		unsigned int numEdges;
 		ifs >> numVertices >> numEdges;
-		cout << "Vertices: " << numVertices << ", Edges: " << numEdges << endl;
-
+		
 		for (unsigned int i = 0; i<numVertices; ++i)
 		{
 			Vertex V;
@@ -84,9 +70,6 @@ public:
 
 			// input both tokens on lines for edges
 			ifs >> token1 >> token2;
-
-			cout << "Token 1: " << token1 << "(" << find(token1) << ")" << 
-					", Token 2: " << token2 << "(" << find(token2) << ")" << endl;
 			
 			// Populate List for each vertex with indices of neighbors
 			vertices.at(find(token1)).neighbors.push_back(find(token2));
@@ -110,26 +93,15 @@ public:
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
 			<< "labelloc = t" << endl
-<<<<<<< HEAD
-            << "label = \"Shortest Path via Breadth First Search\"" << endl
-            << "fontcolor = \"" << fontColor << "\"" << endl
-            << "fontname = Georgia" << endl
-            << "fontsize = 18" << endl
-=======
 			<< "label = \"Shortest Path via Breadth First Search\"" << endl
 			<< "fontcolor = \"" << fontColor << "\"" << endl
 			<< "fontname = Georgia" << endl
 			<< "fontsize = 18" << endl
->>>>>>> purpleNight
 			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
 			<< "fontcolor = \"" << fontColor << "\"" << endl
-<<<<<<< HEAD
-            << "fontname = Georgia" << endl
-=======
 			<< "fontname = Georgia" << endl
->>>>>>> purpleNight
 			<< "style = filled" << endl
 			<< "fixedsize = true" << endl
 			<< "width = 1.2" << endl
@@ -144,35 +116,6 @@ public:
 		// ## Output Vertices
 
 		// Just Source Node
-<<<<<<< HEAD
-        ofs << vertices.at(0).label 
-                << " [" << endl
-                << "label = \"" << vertices.at(0).label 
-                << " (" << vertices.at(0).distance << ")\"" << endl
-                << "fillcolor = \""<< node0 << "\"" << endl
-                << "peripheries = 2, penwidth = 1" << endl
-                << "color = \"" << node0 << "\" ];" << endl << endl;
-        // Remaining Vertices
-        for (unsigned int i = 1; i < vertices.size(); i++)
-        {
-            string nodeColor ="";
-
-            switch (vertices.at(i).distance) 
-            {
-                case 0 : { nodeColor = node0; break; }
-                case 1 : { nodeColor = node1; break; }
-                case 2 : { nodeColor = node2; break; }
-                case 3 : { nodeColor = node3; break; }
-                case 4 : { nodeColor = node4; break; }
-            }
-
-            ofs << vertices.at(i).label 
-                << " [label = \"" << vertices.at(i).label 
-                << " (" << vertices.at(i).distance << ")\""
-                << ", fillcolor = \""<< nodeColor << "\"];" << endl;
-        }
-
-=======
 		ofs << vertices.at(0).label	
 				<< " [" << endl
 				<< "label = \"" << vertices.at(0).label 
@@ -202,7 +145,6 @@ public:
 				<< vertices.at(i).distance << "\"" << endl
 				<< ", fillcolor = \""<< nodeColor << "\"];" << endl;
 		}
->>>>>>> purpleNight
 		ofs << endl;
 
 		// ## Output Edges
@@ -314,10 +256,6 @@ private:
 	string node3;
 	string node4;
 	string fontColor;
-<<<<<<< HEAD
-
-=======
->>>>>>> purpleNight
 	string edgeLong;
 	string edgeShort;
 
