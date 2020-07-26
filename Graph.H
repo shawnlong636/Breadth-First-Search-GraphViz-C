@@ -37,7 +37,7 @@ public:
 	Graph(){}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
-	void build_graph(ifstream& ifs) // TODO
+	void build_graph(ifstream& ifs)
 	{
 		unsigned int numVertices;
 		unsigned int numEdges;
@@ -66,29 +66,38 @@ public:
 			vertices.at(find(token1)).neighbors.push_back(find(token2));
 		}
 	}
-	void output_graph()
+	void output_graph() // FIXME
 	{
 		ofstream ofs("graph.dot");
 
-		ofs << "digraph G {" << endl;
+		ofs << "strict digraph G {" << endl << endl;
 		ofs << "graph [" << endl
+			<< "concentrate = true" << endl
+			// << "rankdir = \"LR\"" << endl
 			<< "pad = 0.5" << endl
-			<< "ranksep = 0.001" << endl
-			<< "rankdir = \"LR\"" << endl
+			<< "ranksep = 0.4" << endl
+			// << "ratio = \"6,9\""
+			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
-			<< "bgcolor = \"#41C6EA:#4AF2A1\" " << endl
-			<< "];" << endl;
+			<< "bgcolor = \"#EEEEEE:#6EDCC5\"];" << endl << endl;
 
 		ofs << "node [" << endl
 			<< "style = filled" << endl
-			<< "fillcolor = white" << endl
-			<< "penwidth = 0" << endl
-			<< "];" << endl;
+			<< "fillcolor = \"#F2ECC6\"" << endl
+			<< "penwidth = 0];" << endl << endl; 
+
+			ofs << "edge [" << endl
+				<< "arrowhead = vee" << endl
+				<< "len = 0.6" << endl
+				<< "arrowsize = 0.7" << endl
+				<< "color = \"#3A3E45\"];" << endl << endl; 
 
 		// Output Vertices
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
-			ofs << vertices.at(i).label	<< ";" << endl;
+			ofs << vertices.at(i).label	
+				<< "[label = \"" << vertices.at(i).label 
+				<< " (" << vertices.at(i).distance << ")\"];" << endl;
 		}
 		ofs << endl;
 
@@ -102,7 +111,49 @@ public:
 		}
 		ofs << "}" << endl;
 	}
-	void bfs(){ /* implement bfs */ }
+	void bfs() // FIXME
+	{
+		// Declare Variables
+		queue<Vertex> Q;
+		Vertex v;
+
+		// Set all Vertices except source to infinity
+		for (unsigned int i = 1; i<vertices.size(); i++)
+			vertices.at(i).distance = INT_MAX;
+
+		// Set Source to 0
+		vertices.at(0).distance = 0;
+
+		// Enqueue Source
+		Q.push(vertices.at(0));
+		// While Q not empty
+		while (!Q.empty())
+		{
+			// v <- dequeue Q
+			v = Q.front();
+			Q.pop();
+
+			// for each adjacent Vertex (u)
+			for (list<int>::iterator it = v.neighbors.begin(); it!=v.neighbors.end(); it++)
+			{
+				// if u.d = infinity
+				if (vertices.at(*it).distance==INT_MAX)
+				{
+					// u.d = v.d + 1
+					vertices.at(*it).distance = v.distance+1;
+
+					// enqueue u
+					Q.push(vertices.at(*it));
+
+				}
+
+
+			}
+
+
+		}
+
+	}
 private:
 	vector<Vertex> vertices;
 	int find(const string& label)
