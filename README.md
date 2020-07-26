@@ -22,6 +22,9 @@ Your input.txt file should be formatting as follows:
 
 This program utilizes the *circo* layout for GraphViz dot files. Because of this, the output file will **must** be run from a web compiler that supports additional GraphViz layouts. I recommend using [GraphViz Online](https://dreampuf.github.io/GraphvizOnline/).
 
+### Screenshot
+![Screenshot](Screenshot.png)
+
 
 ## Built With
 
