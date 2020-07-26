@@ -126,8 +126,7 @@ public:
 				<< " (" << vertices.at(0).distance << ")\"" << endl
 				<< "fillcolor = \""<< node0 << "\"" << endl
 				<< "peripheries = 2, penwidth = 1" << endl
-				<< "tooltip = \"" << vertices.at(0).label << ", Distance from Origin: "
-				<< vertices.at(0).distance << "\"" << endl
+				<< "tooltip = \"" << vertices.at(0).label << ", ORIGIN \"" << endl
 				<< "color = \"" << node0 << "\" ];" << endl << endl;
 		// Remaining Vertices
 		for (unsigned int i = 1; i < vertices.size(); i++)
