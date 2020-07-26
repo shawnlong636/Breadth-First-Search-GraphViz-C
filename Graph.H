@@ -37,15 +37,16 @@ public:
 	Graph()
 	{
 		// Set Color Settings
-		bgIn = "#EEEEEE";
-		bgOut = "#6EDCC5";
-		node0 = "#F8E6D6";
-		node1 = "#F6CC92";
-		node2 = "#F2AB4D";
-		node3 = "#F2AB4D";
-		node4 = "#F2AB4D";
-		edgeLong = "#3A3E45";
-		edgeShort = "#D75B5F";
+		bgIn = "#2D2732";
+		bgOut = "#0D0B0E";
+		node0 = "#AF6EC3";
+		node1 = "#8F36AA";
+		node2 = "#712C9C";
+		node3 = "#712C9C";
+		node4 = "#712C9C";
+		edgeLong = "#504755";
+		edgeShort = "#FFFFFF";
+		fontColor = "#FFFFFF";
 	}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
@@ -84,19 +85,19 @@ public:
 		string nodeColor;
 		ofstream ofs("graph.dot");
 
-		// Set Defaults for Graph, edge and nodes		
+		// ## Set Defaults for Graph, edge and nodes		
 		ofs << "strict digraph G {" << endl << endl;
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
-			// << "rankdir = \"LR\"" << endl
 			<< "pad = 0.5" << endl
 			<< "ranksep = 0.4" << endl
-			// << "ratio = \"6,9\""
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
 			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
+			<< "fontcolor = \"" << fontColor << "\"" << endl
+			<< "fontname = Georgia" << endl
 			<< "style = filled" << endl
 			<< "penwidth = 0];" << endl << endl; 
 
@@ -105,7 +106,7 @@ public:
 				<< "len = 0.6" << endl
 				<< "arrowsize = 0.7];" << endl << endl; 
 
-		// Output Vertices
+		// ## Output Vertices
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
 			string nodeColor ="";
@@ -126,7 +127,7 @@ public:
 		}
 		ofs << endl;
 
-		// Output Edges
+		// ## Output Edges
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
 			for (list<int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
@@ -139,7 +140,7 @@ public:
 				}
 				else
 				{
-					ofs << " [color = \"" << edgeLong << "\", style = dotted ];" << endl;
+					ofs << " [color = \"" << edgeLong << "\"];" << endl;
 				}
 				
 			}
@@ -199,6 +200,7 @@ private:
 	string node2;
 	string node3;
 	string node4;
+	string fontColor;
 
 	string edgeLong;
 	string edgeShort;
