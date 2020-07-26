@@ -46,6 +46,7 @@ public:
 		node4 = "#F2AB4D";
 		edgeLong = "#3A3E45";
 		edgeShort = "#D75B5F";
+		fontColor = "#121624";
 	}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
@@ -88,15 +89,20 @@ public:
 		ofs << "strict digraph G {" << endl << endl;
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
-			// << "rankdir = \"LR\"" << endl
 			<< "pad = 0.5" << endl
 			<< "ranksep = 0.4" << endl
-			// << "ratio = \"6,9\""
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
+			<< "labelloc = t" << endl
+            << "label = \"Shortest Path via Breadth First Search\"" << endl
+            << "fontcolor = \"" << fontColor << "\"" << endl
+            << "fontname = Georgia" << endl
+            << "fontsize = 18" << endl
 			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
+			<< "fontcolor = \"" << fontColor << "\"" << endl
+            << "fontname = Georgia" << endl
 			<< "style = filled" << endl
 			<< "penwidth = 0];" << endl << endl; 
 
@@ -105,28 +111,39 @@ public:
 				<< "len = 0.6" << endl
 				<< "arrowsize = 0.7];" << endl << endl; 
 
-		// Output Vertices
-		for (unsigned int i = 0; i < vertices.size(); i++)
-		{
-			string nodeColor ="";
+		// ## Output Vertices
 
-			switch (vertices.at(i).distance) 
-			{
-				case 0 : { nodeColor = node0; break; }
-				case 1 : { nodeColor = node1; break; }
-				case 2 : { nodeColor = node2; break; }
-				case 3 : { nodeColor = node3; break; }
-				case 4 : { nodeColor = node4; break; }
-			}
+		// Just Source Node
+        ofs << vertices.at(0).label 
+                << " [" << endl
+                << "label = \"" << vertices.at(0).label 
+                << " (" << vertices.at(0).distance << ")\"" << endl
+                << "fillcolor = \""<< node0 << "\"" << endl
+                << "peripheries = 2, penwidth = 1" << endl
+                << "color = \"" << node0 << "\" ];" << endl << endl;
+        // Remaining Vertices
+        for (unsigned int i = 1; i < vertices.size(); i++)
+        {
+            string nodeColor ="";
 
-			ofs << vertices.at(i).label	
-				<< " [label = \"" << vertices.at(i).label 
-				<< " (" << vertices.at(i).distance << ")\""
-				<< ", fillcolor = \""<< nodeColor << "\"];" << endl;
-		}
+            switch (vertices.at(i).distance) 
+            {
+                case 0 : { nodeColor = node0; break; }
+                case 1 : { nodeColor = node1; break; }
+                case 2 : { nodeColor = node2; break; }
+                case 3 : { nodeColor = node3; break; }
+                case 4 : { nodeColor = node4; break; }
+            }
+
+            ofs << vertices.at(i).label 
+                << " [label = \"" << vertices.at(i).label 
+                << " (" << vertices.at(i).distance << ")\""
+                << ", fillcolor = \""<< nodeColor << "\"];" << endl;
+        }
+
 		ofs << endl;
 
-		// Output Edges
+		// ## Output Edges
 		for (unsigned int i = 0; i < vertices.size(); i++)
 		{
 			for (list<int>::iterator it = vertices.at(i).neighbors.begin(); it!=vertices.at(i).neighbors.end(); it++)
@@ -199,6 +216,7 @@ private:
 	string node2;
 	string node3;
 	string node4;
+	string fontColor;
 
 	string edgeLong;
 	string edgeShort;
