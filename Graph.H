@@ -39,11 +39,11 @@ public:
 		// Set Color Settings
 		bgIn = "#2D2732";
 		bgOut = "#0D0B0E";
-		node0 = "#AF6EC3";
-		node1 = "#9F43BA";
-		node2 = "#791CB3";
-		node3 = "#791CB3";
-		node4 = "#791CB3";
+		node0 = "#D14C5A";
+		node1 = "#7E364E";
+		node2 = "#4C2844";
+		node3 = "#2E1F3D";
+		node4 = "#2E1F3D";
 		edgeLong = "#504755";
 		edgeShort = "#FFFFFF";
 		fontColor = "#FFFFFF";
@@ -87,6 +87,9 @@ public:
 
 		// ## Set Defaults for Graph, edge and nodes		
 		ofs << "strict digraph G {" << endl << endl;
+		ofs << "layout = circo" << endl;
+		ofs << "tooltip = \"Breadth First Search\"" << endl << endl;
+
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
 			<< "pad = 0.5" << endl
@@ -104,6 +107,9 @@ public:
 			<< "fontcolor = \"" << fontColor << "\"" << endl
 			<< "fontname = Georgia" << endl
 			<< "style = filled" << endl
+			<< "fixedsize = true" << endl
+			<< "width = 1.2" << endl
+			<< "shape = circle" << endl
 			<< "penwidth = 0];" << endl << endl; 
 
 			ofs << "edge [" << endl
@@ -151,11 +157,19 @@ public:
 
 				if (vertices.at(*it).parent == i)
 				{
-					ofs << " [color = \"" << edgeShort << "\", style = bold ];" << endl;
+					ofs << " [" << endl
+						<< "color = \"" << edgeShort << "\""
+						<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+						<< " (part of shortest path)\""
+						<< ", style = bold ];" << endl;
 				}
 				else
 				{
-					ofs << " [color = \"" << edgeLong << "\"];" << endl;
+						ofs << " [" << endl
+						<< "color = \"" << edgeShort << "\""
+						<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+						<< " (not part of shortest path)\""
+						<< ", style = dotted ];" << endl;
 				}
 				
 			}
