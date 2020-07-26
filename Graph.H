@@ -37,6 +37,7 @@ public:
 	Graph()
 	{
 		// Set Color Settings
+<<<<<<< HEAD
 		bgIn = "#EEEEEE";
 		bgOut = "#6EDCC5";
 		node0 = "#F8E6D6";
@@ -47,6 +48,18 @@ public:
 		edgeLong = "#3A3E45";
 		edgeShort = "#D75B5F";
 		fontColor = "#121624";
+=======
+		bgIn = "#2D2732";
+		bgOut = "#0D0B0E";
+		node0 = "#D14C5A";
+		node1 = "#7E364E";
+		node2 = "#4C2844";
+		node3 = "#2E1F3D";
+		node4 = "#2E1F3D";
+		edgeLong = "#504755";
+		edgeShort = "#FFFFFF";
+		fontColor = "#FFFFFF";
+>>>>>>> purpleNight
 	}
 	Graph(ifstream& ifs){ /* implement overloaded constructor */ }
 	~Graph(){}
@@ -85,8 +98,11 @@ public:
 		string nodeColor;
 		ofstream ofs("graph.dot");
 
-		// Set Defaults for Graph, edge and nodes		
+		// ## Set Defaults for Graph, edge and nodes		
 		ofs << "strict digraph G {" << endl << endl;
+		ofs << "layout = circo" << endl;
+		ofs << "tooltip = \"Breadth First Search\"" << endl << endl;
+
 		ofs << "graph [" << endl
 			<< "concentrate = true" << endl
 			<< "pad = 0.5" << endl
@@ -94,16 +110,30 @@ public:
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
 			<< "labelloc = t" << endl
+<<<<<<< HEAD
             << "label = \"Shortest Path via Breadth First Search\"" << endl
             << "fontcolor = \"" << fontColor << "\"" << endl
             << "fontname = Georgia" << endl
             << "fontsize = 18" << endl
+=======
+			<< "label = \"Shortest Path via Breadth First Search\"" << endl
+			<< "fontcolor = \"" << fontColor << "\"" << endl
+			<< "fontname = Georgia" << endl
+			<< "fontsize = 18" << endl
+>>>>>>> purpleNight
 			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
 			<< "fontcolor = \"" << fontColor << "\"" << endl
+<<<<<<< HEAD
             << "fontname = Georgia" << endl
+=======
+			<< "fontname = Georgia" << endl
+>>>>>>> purpleNight
 			<< "style = filled" << endl
+			<< "fixedsize = true" << endl
+			<< "width = 1.2" << endl
+			<< "shape = circle" << endl
 			<< "penwidth = 0];" << endl << endl; 
 
 			ofs << "edge [" << endl
@@ -114,6 +144,7 @@ public:
 		// ## Output Vertices
 
 		// Just Source Node
+<<<<<<< HEAD
         ofs << vertices.at(0).label 
                 << " [" << endl
                 << "label = \"" << vertices.at(0).label 
@@ -141,6 +172,37 @@ public:
                 << ", fillcolor = \""<< nodeColor << "\"];" << endl;
         }
 
+=======
+		ofs << vertices.at(0).label	
+				<< " [" << endl
+				<< "label = \"" << vertices.at(0).label 
+				<< " (" << vertices.at(0).distance << ")\"" << endl
+				<< "fillcolor = \""<< node0 << "\"" << endl
+				<< "peripheries = 2, penwidth = 1" << endl
+				<< "tooltip = \"" << vertices.at(0).label << ", ORIGIN \"" << endl
+				<< "color = \"" << node0 << "\" ];" << endl << endl;
+		// Remaining Vertices
+		for (unsigned int i = 1; i < vertices.size(); i++)
+		{
+			string nodeColor ="";
+
+			switch (vertices.at(i).distance) 
+			{
+				case 0 : { nodeColor = node0; break; }
+				case 1 : { nodeColor = node1; break; }
+				case 2 : { nodeColor = node2; break; }
+				case 3 : { nodeColor = node3; break; }
+				case 4 : { nodeColor = node4; break; }
+			}
+
+			ofs << vertices.at(i).label	
+				<< " [label = \"" << vertices.at(i).label 
+				<< " (" << vertices.at(i).distance << ")\""
+				<< "tooltip = \"" << vertices.at(i).label << ", Distance from Origin: "
+				<< vertices.at(i).distance << "\"" << endl
+				<< ", fillcolor = \""<< nodeColor << "\"];" << endl;
+		}
+>>>>>>> purpleNight
 		ofs << endl;
 
 		// ## Output Edges
@@ -152,18 +214,53 @@ public:
 
 				if (vertices.at(*it).parent == i)
 				{
-					ofs << " [color = \"" << edgeShort << "\", style = bold ];" << endl;
+					if (bidirectional(vertices.at(*it),vertices.at(i)))
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " <-> " << vertices.at(*it).label 
+							<< " (part of shortest path)\""
+							<< ", dir = both"
+							<< ", style = bold ];" << endl;
+					}
+					else
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeShort << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+							<< " (part of shortest path)\""
+							<< ", style = bold ];" << endl;
+					}
+					
+
 				}
 				else
 				{
-					ofs << " [color = \"" << edgeLong << "\", style = dotted ];" << endl;
+					if (bidirectional(vertices.at(*it),vertices.at(i)))
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeLong << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " <-> " << vertices.at(*it).label 
+							<< " (not part of shortest path)\""
+							<< ", dir = both"
+							<< ", style = line ];" << endl;
+					}
+					else
+					{
+						ofs << " [" << endl
+							<< "color = \"" << edgeLong << "\""
+							<< ", tooltip = \"" << vertices.at(i).label << " -> " << vertices.at(*it).label 
+							<< " (not part of shortest path)\""
+							<< ", style = line ];" << endl;
+						
+					}
 				}
 				
 			}
 		}
 		ofs << "}" << endl;
 	}
-	void bfs() // FIXME
+	void bfs()
 	{
 		// Declare Variables
 		queue<Vertex> Q;
@@ -217,7 +314,10 @@ private:
 	string node3;
 	string node4;
 	string fontColor;
+<<<<<<< HEAD
 
+=======
+>>>>>>> purpleNight
 	string edgeLong;
 	string edgeShort;
 
@@ -230,6 +330,29 @@ private:
 				return i;
 		}
 		return -1;
+	}
+	bool bidirectional(Vertex& v1, Vertex& v2)
+	{
+		int numDirections = 0;
+
+		// Check if v2 is neighbor of v1
+		for (list<int>::iterator it = v1.neighbors.begin(); it!=v1.neighbors.end(); it++)
+		{
+			if (vertices.at(*it).label == v2.label)
+				numDirections++;
+		}
+
+		// Check if v1 is neighbor of v2
+		for (list<int>::iterator it = v2.neighbors.begin(); it!=v2.neighbors.end(); it++)
+		{
+			if (vertices.at(*it).label == v1.label)
+				numDirections++;
+		}
+
+		if (numDirections==2)
+			return true;
+		else
+			return false;
 	}
 };
 
