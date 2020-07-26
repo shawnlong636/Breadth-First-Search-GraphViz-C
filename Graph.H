@@ -40,10 +40,10 @@ public:
 		bgIn = "#2D2732";
 		bgOut = "#0D0B0E";
 		node0 = "#AF6EC3";
-		node1 = "#8F36AA";
-		node2 = "#712C9C";
-		node3 = "#712C9C";
-		node4 = "#712C9C";
+		node1 = "#9F43BA";
+		node2 = "#791CB3";
+		node3 = "#791CB3";
+		node4 = "#791CB3";
 		edgeLong = "#504755";
 		edgeShort = "#FFFFFF";
 		fontColor = "#FFFFFF";
@@ -93,6 +93,11 @@ public:
 			<< "ranksep = 0.4" << endl
 			<< "nodesep = 0.7" << endl
 			<< "style = radial" << endl
+			<< "labelloc = t" << endl
+			<< "label = \"Shortest Path via Breadth First Search\"" << endl
+			<< "fontcolor = \"" << fontColor << "\"" << endl
+			<< "fontname = Georgia" << endl
+			<< "fontsize = 18" << endl
 			<< "bgcolor = \"" << bgIn << ":" << bgOut << "\"];" << endl << endl;
 
 		ofs << "node [" << endl
@@ -107,7 +112,17 @@ public:
 				<< "arrowsize = 0.7];" << endl << endl; 
 
 		// ## Output Vertices
-		for (unsigned int i = 0; i < vertices.size(); i++)
+
+		// Just Source Node
+		ofs << vertices.at(0).label	
+				<< " [" << endl
+				<< "label = \"" << vertices.at(0).label 
+				<< " (" << vertices.at(0).distance << ")\"" << endl
+				<< "fillcolor = \""<< node0 << "\"" << endl
+				<< "peripheries = 2, penwidth = 1" << endl
+				<< "color = \"" << node0 << "\" ];" << endl << endl;
+		// Remaining Vertices
+		for (unsigned int i = 1; i < vertices.size(); i++)
 		{
 			string nodeColor ="";
 
